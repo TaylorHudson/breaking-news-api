@@ -4,7 +4,7 @@ const findById = (req, res) => {
   try {
     const user = req.user;
     res.send(user);
-  } catch (err) { res.status(500).send({ message: err.message }); }
+  } catch (err) { return res.status(500).send({ message: err.message }); }
 }
 
 const findAll = async (req, res) => {
@@ -12,7 +12,7 @@ const findAll = async (req, res) => {
     const users = await userService.findAllService();
     res.send(users);
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    return res.status(500).send({ message: err.message });
   }
 }
 
@@ -31,7 +31,7 @@ const create = async (req, res) => {
     else {
 
       if (!name && !username && !email && !password && !avatar && !background) {
-        res.status(400).send({ message: "Submit all fields to create" });
+        return res.status(400).send({ message: "Submit all fields to create" });
       }
 
       await userService.createService({
@@ -44,7 +44,7 @@ const create = async (req, res) => {
 
     }
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    return res.status(500).send({ message: err.message });
   }
 }
 
@@ -62,7 +62,7 @@ const update = async (req, res) => {
     res.status(201).send({ message: 'User updated successfuly' });
 
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    return res.status(500).send({ message: err.message });
   }
 }
 
