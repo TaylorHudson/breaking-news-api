@@ -13,7 +13,7 @@ const idValid = (req, res, next) => {
 
     next();
   } catch (error) {
-    res.status(500).send(error.message);
+    return res.status(500).send(error.message);
   }
 }
 
@@ -22,7 +22,7 @@ const userValid = async (req, res, next) => {
     const id = req.params.id;
     const user = await userService.findByIdService(id);
 
-    if (!user) res.status(400).send({ message: 'User not found' });
+    if (!user) return res.status(400).send({ message: 'User not found' });
 
     req.id = id;
     req.user = user;
@@ -30,7 +30,7 @@ const userValid = async (req, res, next) => {
     next();
 
   } catch (error) {
-    res.status(500).send(error.message);
+    return res.status(500).send(error.message);
   }
 }
 
