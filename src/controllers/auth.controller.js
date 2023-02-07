@@ -1,4 +1,4 @@
-import { loginService } from "../services/auth.service.js";
+import { loginService, generateJwtToken } from "../services/auth.service.js";
 import bcrypt from "bcryptjs"
 
 const login = async (req, res) => {
@@ -14,7 +14,9 @@ const login = async (req, res) => {
 
     if(!valid) return res.status(404).send({message});
 
-    res.send('login ok');
+    const token = generateJwtToken(user.id);
+
+    res.send({token});
 
   } catch (err) {
     return res.status(500).send({ message: err.message });
