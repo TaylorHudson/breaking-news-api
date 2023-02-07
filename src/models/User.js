@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 const userSchema = mongoose.Schema({
   name: {
@@ -12,7 +13,8 @@ const userSchema = mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    lowercase: true
   },
   password: {
     type: String,
@@ -27,6 +29,12 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true
   },
+});
+
+// Serves to encrypt the password before saving the user
+userSchema.pre("save", function(next) {
+  this.password = bcrypt.hashSync(this.password, 10);
+  next();
 });
 
 const User = mongoose.model('User', userSchema);
